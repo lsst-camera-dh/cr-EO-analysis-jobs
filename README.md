@@ -1,2 +1,3 @@
 # cr-EO-analysis-jobs
-EO analysis jobs for Corner Raft
+Harnessed jobs for electro-optical analyses of LSST Corner Raft data
+
