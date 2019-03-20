@@ -17,7 +17,7 @@ results = []
 for slot, sensor_id in raft.items():
     print("Processing:", slot, sensor_id)
 
-   if 'ccd2' in slot :
+    if 'ccd2' in slot :
         continue
     wgSlotName = siteUtils.getWGSlotNames(raft)[sensor_id]
 
