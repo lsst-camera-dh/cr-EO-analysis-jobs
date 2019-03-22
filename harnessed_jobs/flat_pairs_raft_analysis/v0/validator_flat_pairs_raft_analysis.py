@@ -13,7 +13,7 @@ raft = camera_components.Raft.create_from_etrav(raft_id)
 
 results = []
 for slot, sensor_id in raft.items():
-   if 'ccd2' in slot :
+    if 'ccd2' in slot :
         continue
     wgSlotName = siteUtils.getWGSlotNames(raft)[sensor_id]
 

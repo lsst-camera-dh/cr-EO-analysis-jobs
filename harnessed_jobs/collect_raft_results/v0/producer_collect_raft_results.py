@@ -18,9 +18,23 @@ from tearing_detection import tearing_detection
 
 def slot_dependency_glob(pattern, jobname):
     "Return an OrderedDict of files with the desired pattern, keyed by slot."
-    files = sorted(siteUtils.dependency_glob(os.path.join('S??', pattern),
+#    files = sorted(siteUtils.dependency_glob(os.path.join('S??', pattern),
+    files = sorted(siteUtils.dependency_glob(pattern,
                                              jobname=jobname))
-    return OrderedDict([(fn.split('/')[-2], fn) for fn in files])
+    print("slot_dependency_glob files = ",files," pattern = ", pattern," jobname = ",jobname," path = ",os.path.join('S??', pattern)  )
+
+    slot = {}
+    for fn in files :
+        if "WREB0" in fn :
+            slot[fn] = "ccd1"
+        if "GREB0" in fn :
+            slot[fn] = "guidesensor1"
+        if "GREB1" in fn :
+            slot[fn] = "guidesensor2"
+
+
+#    return OrderedDict([(fn.split('/')[-2], fn) for fn in files])
+    return OrderedDict([(slot[fn], fn) for fn in files])
 
 run_number = siteUtils.getRunNumber()
 
@@ -39,13 +53,15 @@ sensor_ids = {slot: sensor_id for slot, sensor_id in raft.items()}
 summary_files = dependency_glob('summary.lims')
 results_files = dict()
 for slot, sensor_id in raft.items():
+    wgSlotName = siteUtils.getWGSlotNames(raft)[sensor_id];
+
     # Aggregate information from summary.lims files into a final
     # EOTestResults output file for the desired sensor_id.
     repackager = eotestUtils.JsonRepackager()
     repackager.eotest_results.add_ccd_result('TOTAL_NUM_PIXELS', total_num)
     repackager.eotest_results.add_ccd_result('ROLLOFF_MASK_PIXELS',
                                              rolloff_mask)
-    repackager.process_files(summary_files, sensor_id=sensor_id)
+    repackager.process_files(summary_files, sensor_id=wgSlotName)
 
     # Add 95th percentile dark current shot noise and add in quadrature
     # to read noise to produce updated total noise.
@@ -55,17 +71,19 @@ for slot, sensor_id in raft.items():
     for i, amp in enumerate(repackager.eotest_results['AMP']):
         repackager.eotest_results.add_seg_result(amp, 'DC95_SHOT_NOISE',
                                                  np.float(shot_noise[i]))
-        repackager.eotest_results['TOTAL_NOISE'][i] = total_noise[i]
+#        repackager.eotest_results['TOTAL_NOISE'][i] = total_noise[i]
 
-    outfile = '%s_eotest_results.fits' % sensor_id
+    outfile = '%s_eotest_results.fits' % wgSlotName
     repackager.write(outfile)
     results_files[slot] = outfile
 
 gains = dict()
 for slot, res_file in results_files.items():
     results = sensorTest.EOTestResults(res_file)
+    print("slot = ",slot," res_file = ",res_file," results = ",results)
     gains[slot] = dict([(amp, gain) for amp, gain
                         in zip(results['AMP'], results['GAIN'])])
+    print("gains = ",gains)
 
 title = '%s, %s' % (raft_id, run_number)
 file_prefix = '%s_%s' % (raft_id, run_number)
@@ -124,25 +142,30 @@ del qe_fig
 # charge diffusion PSF, and gains from Fe55 and PTC.
 spec_plots = raftTest.RaftSpecPlots(results_files)
 
-columns = 'READ_NOISE DC95_SHOT_NOISE TOTAL_NOISE'.split()
+#columns = 'READ_NOISE DC95_SHOT_NOISE TOTAL_NOISE'.split()
+columns = 'READ_NOISE DC95_SHOT_NOISE'.split()
 spec_plots.make_multi_column_plot(columns, 'noise per pixel (-e rms)', spec=9,
                                   title=title)
 plt.savefig('%s_total_noise.png' % file_prefix)
 
-spec_plots.make_plot('MAX_FRAC_DEV',
-                     'non-linearity (max. fractional deviation)',
-                     spec=0.03, title=title)
-plt.savefig('%s_linearity.png' % file_prefix)
+try:
+    spec_plots.make_plot('MAX_FRAC_DEV',
+                         'non-linearity (max. fractional deviation)',
+                         spec=0.03, title=title)
+    plt.savefig('%s_linearity.png' % file_prefix)
+except:
+    print("Failed to produce linearity plot. Check specific analysis job")
+
 
 spec_plots.make_multi_column_plot(('CTI_LOW_SERIAL', 'CTI_HIGH_SERIAL'),
                                   'Serial CTI (ppm)', spec=(5e-6, 3e-5),
-                                  title=title, yscaling=1e6, yerrors=True,
+                                  title=title, yscaling=1e6, yerrors=False,
                                   colors='br', ymax=4e-5)
 plt.savefig('%s_serial_cti.png' % file_prefix)
 
 spec_plots.make_multi_column_plot(('CTI_LOW_PARALLEL', 'CTI_HIGH_PARALLEL'),
                                   'Parallel CTI (ppm)', spec=3e-6,
-                                  title=title, yscaling=1e6, yerrors=True,
+                                  title=title, yscaling=1e6, yerrors=False,
                                   colors='br')
 plt.savefig('%s_parallel_cti.png' % file_prefix)
 
@@ -150,7 +173,9 @@ spec_plots.make_plot('PSF_SIGMA', 'PSF sigma (microns)', spec=5., title=title,
                      ymax=5.2)
 plt.savefig('%s_psf_sigma.png' % file_prefix)
 
-spec_plots.make_multi_column_plot(('GAIN', 'PTC_GAIN'), 'System Gain (e-/ADU)',
+#spec_plots.make_multi_column_plot(('GAIN', 'PTC_GAIN'), 'System Gain (e-/ADU)',
+#                                  yerrors=True, title=title, colors='br')
+spec_plots.make_multi_column_plot(('GAIN', 'GAIN'), 'System Gain (e-/ADU)',
                                   yerrors=True, title=title, colors='br')
 plt.savefig('%s_system_gain.png' % file_prefix)
 

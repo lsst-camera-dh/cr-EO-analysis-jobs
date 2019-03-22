@@ -10,7 +10,18 @@ import siteUtils
 import eotestUtils
 from multiprocessor_execution import sensor_analyses
 
+hw_objects = {}
+
 def run_qe_task(sensor_id):
+
+    try:
+        if hw_objects[sensor_id] :
+            return
+    except:
+        hw_objects[sensor_id] = True
+        print("hw_objects = ",hw_objects)
+
+
     "Single sensor execution of the QE task."
     file_prefix = '%s_%s' % (sensor_id, siteUtils.getRunNumber())
     lambda_files = siteUtils.dependency_glob('S*/%s_lambda_flat_*.fits' % sensor_id,
