@@ -4,8 +4,8 @@ Producer script for raft-level Fe55 analysis.
 """
 from __future__ import print_function
 import glob
-import lsst.eotest.image_utils as imutils
-import lsst.eotest.sensor as sensorTest
+import lsst.cr-eotest.image_utils as imutils
+import lsst.cr-eotest.sensor as sensorTest
 import siteUtils
 from multiprocessor_execution import sensor_analyses
 

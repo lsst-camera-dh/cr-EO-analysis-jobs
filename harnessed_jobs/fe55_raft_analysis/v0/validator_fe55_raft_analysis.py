@@ -8,7 +8,7 @@ import numpy as np
 import lcatr.schema
 import siteUtils
 import eotestUtils
-import lsst.eotest.sensor as sensorTest
+import lsst.cr-eotest.sensor as sensorTest
 import camera_components
 
 raft_id = siteUtils.getUnitId()

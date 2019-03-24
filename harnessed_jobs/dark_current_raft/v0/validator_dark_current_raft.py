@@ -2,7 +2,7 @@
 """
 Validator script for raft-level dark current analysis.
 """
-import lsst.eotest.sensor as sensorTest
+import lsst.cr-eotest.sensor as sensorTest
 import lcatr.schema
 import siteUtils
 import camera_components

@@ -3,7 +3,7 @@
 Producer script for raft-level dark defects analysis.
 """
 from __future__ import print_function
-import lsst.eotest.sensor as sensorTest
+import lsst.cr-eotest.sensor as sensorTest
 import os
 import siteUtils
 import eotestUtils

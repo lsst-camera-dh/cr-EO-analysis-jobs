@@ -3,7 +3,7 @@
 Producer script for raft-level PTC analysis.
 """
 from __future__ import print_function
-import lsst.eotest.sensor as sensorTest
+import lsst.cr-eotest.sensor as sensorTest
 import siteUtils
 import eotestUtils
 from multiprocessor_execution import sensor_analyses
