@@ -4,7 +4,7 @@ Producer script for raft-level PRNU analysis.
 """
 from __future__ import print_function
 import sys
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import siteUtils
 import eotestUtils
 import camera_components

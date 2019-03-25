@@ -5,7 +5,7 @@ Producer script for raft-level QE analysis.
 from __future__ import print_function
 import os
 import sys
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import siteUtils
 import eotestUtils
 from multiprocessor_execution import sensor_analyses

@@ -4,7 +4,7 @@ Validator script for raft-level CTE analysis.
 """
 from __future__ import print_function, absolute_import
 import glob
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import lcatr.schema
 import siteUtils
 import eotestUtils

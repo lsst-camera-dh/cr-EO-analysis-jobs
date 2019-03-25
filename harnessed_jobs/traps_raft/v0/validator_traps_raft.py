@@ -2,7 +2,7 @@
 """
 Validator script for raft-level traps analysis.
 """
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import lcatr.schema
 import siteUtils
 import eotestUtils

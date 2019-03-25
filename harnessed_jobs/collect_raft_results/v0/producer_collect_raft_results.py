@@ -8,8 +8,8 @@ import os
 from collections import OrderedDict
 import numpy as np
 import matplotlib.pyplot as plt
-import lsst.cr-eotest.sensor as sensorTest
-import lsst.cr-eotest.raft as raftTest
+import lsst.cr_eotest.sensor as sensorTest
+import lsst.cr_eotest.raft as raftTest
 from lcatr.harness.helpers import dependency_glob
 import eotestUtils
 import siteUtils

@@ -4,7 +4,7 @@ Validator script for raft-level read noise analysis.
 """
 from __future__ import print_function
 import glob
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import lcatr.schema
 import siteUtils
 import eotestUtils

@@ -3,7 +3,7 @@
 Producer script for raft-level dark current analysis.
 """
 from __future__ import absolute_import
-import lsst.cr-eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import siteUtils
 import eotestUtils
 from multiprocessor_execution import sensor_analyses
