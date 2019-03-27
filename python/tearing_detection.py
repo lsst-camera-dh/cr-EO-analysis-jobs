@@ -3,7 +3,7 @@ Functions to process raft-level single sensor flats for tearing detection.
 """
 import os
 import matplotlib.pyplot as plt
-import lsst.eotest.sensor as sensorTest
+import lsst.cr_eotest.sensor as sensorTest
 import siteUtils
 
 __all__ = ['tearing_detection', 'persist_tearing_png_files']

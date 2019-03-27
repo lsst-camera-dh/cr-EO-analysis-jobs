@@ -9,8 +9,8 @@ import astropy.visualization as viz
 from astropy.visualization.mpl_normalize import ImageNormalize
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
-import lsst.eotest.image_utils as imutils
-import lsst.eotest.sensor as sensorTest
+import lsst.cr_eotest.image_utils as imutils
+import lsst.cr_eotest.sensor as sensorTest
 import camera_components
 
 plt.rcParams['xtick.labelsize'] = 'x-small'
