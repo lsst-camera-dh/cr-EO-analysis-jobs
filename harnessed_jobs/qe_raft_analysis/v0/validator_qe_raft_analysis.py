@@ -33,7 +33,7 @@ for slot, sensor_id in raft.items():
     for band in QE:
         results.append(lcatr.schema.valid(lcatr.schema.get('qe_raft_analysis'),
                                           band=band, QE=np.mean(QE[band]),
-                                          slot=slot, sensor_id=sensor_id))
+                                          slot=slot, sensor_id=wgSlotName))
 
     qe_files = glob.glob('%s_*QE*.*' % wgSlotName)
     for item in qe_files:

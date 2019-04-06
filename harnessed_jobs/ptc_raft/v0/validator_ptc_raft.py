@@ -36,7 +36,7 @@ for slot, sensor_id in raft.items():
                                           amp=amp, ptc_gain=gain,
                                           ptc_gain_error=gain_error,
                                           slot=slot,
-                                          sensor_id=sensor_id))
+                                          sensor_id=wgSlotName))
     # Persist the png files.
     metadata = dict(CCD_MANU=ccd_vendor, LSST_NUM=sensor_id,
                     TESTTYPE='FLAT', TEST_CATEGORY='EO')

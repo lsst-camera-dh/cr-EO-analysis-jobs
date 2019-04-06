@@ -38,7 +38,7 @@ for slot, sensor_id in raft.items():
         results.append(lcatr.schema.valid(lcatr.schema.get('traps_raft'),
                                           amp=amp, num_traps=ntrap,
                                           slot=slot,
-                                          sensor_id=sensor_id))
+                                          sensor_id=wgSlotName))
 
 results.extend(siteUtils.jobInfo())
 

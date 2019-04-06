@@ -27,7 +27,7 @@ for slot, sensor_id in raft.items():
         results.append(lcatr.schema.valid(lcatr.schema.get('dark_current_raft'),
                                           amp=amp, dark_current_95CL=dc95,
                                           slot=slot,
-                                          sensor_id=sensor_id))
+                                          sensor_id=wgSlotName))
 
     # Persist the png files.
     metadata = dict(CCD_MANU=ccd_vendor, LSST_NUM=sensor_id,

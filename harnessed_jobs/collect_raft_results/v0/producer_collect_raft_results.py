@@ -18,9 +18,11 @@ from tearing_detection import tearing_detection
 
 def slot_dependency_glob(pattern, jobname):
     "Return an OrderedDict of files with the desired pattern, keyed by slot."
-#    files = sorted(siteUtils.dependency_glob(os.path.join('S??', pattern),
-    files = sorted(siteUtils.dependency_glob(pattern,
+    files = sorted(siteUtils.dependency_glob(os.path.join('S??', pattern),
                                              jobname=jobname))
+    files = files + sorted(siteUtils.dependency_glob(pattern,
+                                             jobname=jobname))
+
     print("slot_dependency_glob files = ",files," pattern = ", pattern," jobname = ",jobname," path = ",os.path.join('S??', pattern)  )
 
     slot = {}
@@ -61,17 +63,25 @@ for slot, sensor_id in raft.items():
     repackager.eotest_results.add_ccd_result('TOTAL_NUM_PIXELS', total_num)
     repackager.eotest_results.add_ccd_result('ROLLOFF_MASK_PIXELS',
                                              rolloff_mask)
+#hn  temporary for handling inconsistency in indexing 
+#    repackager.process_files(summary_files, sensor_id=sensor_id)
     repackager.process_files(summary_files, sensor_id=wgSlotName)
 
     # Add 95th percentile dark current shot noise and add in quadrature
     # to read noise to produce updated total noise.
     shot_noise = repackager.eotest_results['DARK_CURRENT_95']*exptime
-    total_noise = np.sqrt(repackager.eotest_results['READ_NOISE']**2
+    total_noise = np.sqrt(repackager.eotest_results['TOTAL_NOISE']**2
                           + shot_noise)
+
+    print("eotest results TOTAL_NOISE = ",repackager.eotest_results['TOTAL_NOISE'])
+    print("eotest results READ_NOISE = ",repackager.eotest_results['READ_NOISE'])
+
+    print("total_noise = ",total_noise)
+
     for i, amp in enumerate(repackager.eotest_results['AMP']):
         repackager.eotest_results.add_seg_result(amp, 'DC95_SHOT_NOISE',
                                                  np.float(shot_noise[i]))
-#        repackager.eotest_results['TOTAL_NOISE'][i] = total_noise[i]
+        repackager.eotest_results['TOTAL_NOISE'][i] = total_noise[i]
 
     outfile = '%s_eotest_results.fits' % wgSlotName
     repackager.write(outfile)
@@ -142,8 +152,8 @@ del qe_fig
 # charge diffusion PSF, and gains from Fe55 and PTC.
 spec_plots = raftTest.RaftSpecPlots(results_files)
 
-#columns = 'READ_NOISE DC95_SHOT_NOISE TOTAL_NOISE'.split()
-columns = 'READ_NOISE DC95_SHOT_NOISE'.split()
+columns = 'READ_NOISE DC95_SHOT_NOISE TOTAL_NOISE'.split()
+#columns = 'READ_NOISE DC95_SHOT_NOISE'.split()
 spec_plots.make_multi_column_plot(columns, 'noise per pixel (-e rms)', spec=9,
                                   title=title)
 plt.savefig('%s_total_noise.png' % file_prefix)

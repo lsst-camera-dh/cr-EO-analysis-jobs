@@ -43,7 +43,8 @@ for slot, sensor_id in raft.items():
                                           bright_pixels=npix,
                                           bright_columns=ncol,
                                           slot=slot,
-                                          sensor_id=sensor_id))
+                                          sensor_id=wgSlotName))
+#                                          sensor_id=sensor_id))
     # Persist the png files.
     metadata = dict(CCD_MANU=ccd_vendor, LSST_NUM=sensor_id,
                     TESTTYPE='DARK', TEST_CATEGORY='EO')

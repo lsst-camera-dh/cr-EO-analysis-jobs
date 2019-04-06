@@ -36,7 +36,8 @@ for slot, sensor_id in raft.items():
                                           system_noise=system_noise,
                                           total_noise=total_noise,
                                           slot=slot,
-                                          sensor_id=sensor_id))
+                                          sensor_id=wgSlotName))
+#                                          sensor_id=sensor_id))
 
 #    fe55_acq_job_id = siteUtils.get_prerequisite_job_id('S*/%s_fe55_fe55_*.fits' % sensor_id,
     fe55_acq_job_id = siteUtils.get_prerequisite_job_id('S*/%s_fe55_fe55_*.fits' % wgSlotName,
